@@ -27,10 +27,16 @@ fn main() {
         line = String::new();
     }
 
+    // compute measurement moving sums consisting of 3 element windows
+    let moving_sums: Vec<u16> = measures
+        .windows(3)
+        .map(|triple| triple.iter().sum())
+        .collect();
+
     // compute no. of times current measure increases compared to previous measurement
-    let n_increasing: u16 = measures
+    let n_increasing: u16 = moving_sums
         .windows(2)
-        .map(|measures| match &measures {
+        .map(|sums| match &sums {
             &[prev, current] if current > prev => 1,
             _ => 0,
         })
