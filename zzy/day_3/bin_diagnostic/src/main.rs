@@ -1,4 +1,6 @@
-//!  Anti Helmet Advent of Code
+//! 
+//! Anti Helmet 
+//! Advent of Code
 //! Day 3: Binary Diagnostic
 //!
 
