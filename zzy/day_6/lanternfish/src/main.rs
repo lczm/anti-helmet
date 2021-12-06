@@ -7,7 +7,7 @@
 use std::collections::HashMap;
 use std::io::{stdin, Read};
 
-/// Defines the delay in days  before a a lanternfish can reproduces
+/// Defines the delay in days before a lanternfish can reproduce
 const REPRODUCE_DELAY_DAYS: u8 = 6;
 
 /// Models a lanternfish that reproduces on a 7 day cycle.
@@ -68,6 +68,8 @@ fn main() {
         // compute counts grouped by kind of fish for current day
         let mut new_counts = HashMap::new();
         for (fish_kind, n_fishes) in fish_counts {
+            // since all n_fishes of the same fish kind act the same way
+            // we only need to to simulate each fish kind once and multiply the results
             for new_fish_kind in fish_kind.simulate() {
                 // update count for new fish types in counts map
                 let count = new_counts.entry(new_fish_kind).or_default();
