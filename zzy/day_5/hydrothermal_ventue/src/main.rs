@@ -9,7 +9,7 @@ use std::collections::HashMap;
 use std::io::{stdin, Read};
 
 /// Represents a point / vector on 2D x, y plane
-#[derive(PartialEq, Hash, Eq, Copy, Clone, Debug)]
+#[derive(PartialEq, Hash, Eq, Copy, Clone )]
 struct Point {
     x: i32,
     y: i32,
