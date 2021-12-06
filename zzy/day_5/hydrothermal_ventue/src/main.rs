@@ -20,7 +20,6 @@ struct Line {
     begin: Point,
     end: Point,
 }
-
 impl Line {
     fn iter(&self) -> PointIterator {
         let delta = Point {
@@ -92,7 +91,7 @@ fn main() {
         })
         .collect();
 
-    // walk each line line to marks points that it covers into intersect map
+    // walk each line and mark each point it covers inthe intersect_counts map
     let mut intersect_counts = HashMap::new();
     for line in lines {
         for pt in line.iter() {
