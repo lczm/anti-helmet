@@ -34,6 +34,32 @@ fn part1() {
 }
 
 fn part2() {
+    let filename = "in1";
+    let content = fs::read_to_string(filename)
+        .expect("Something went wrong reading the file");
+
+    let mut items: Vec<u128> = content.split(",")
+        .map(|s| s.trim())
+        .map(|s| s.parse::<u128>().expect("parse into u32 error"))
+        .collect();
+
+    let mut v: Vec<u128> = vec![0, 0, 0, 0, 0, 0, 0, 0, 0];
+    for i in items {
+        v[i as usize] += 1;
+    }
+
+    for i in 0..256 {
+        let popped = v.remove(0);
+        v.push(popped);
+        v[6] += v[8];
+    }
+
+    let mut count:u128 = 0;
+    for i in v {
+        count += i;
+    }
+
+    println!("{}", count);
 }
 
 fn main() {
