@@ -5,6 +5,7 @@ fn main() {
     let lines = read_lines();
     let commands = parse_commands(lines);
     println!("Part 1: {:?}", part1(&commands));
+    println!("Part 2: {:?}", part2(&commands));
 }
 
 fn read_lines() -> Vec<String> {
@@ -41,6 +42,20 @@ fn part1(commands: &Vec<Command>) -> i32 {
             Command::Forward(n) => fwd += n,
             Command::Up(n) => depth -= n,
             Command::Down(n) => depth += n
+        }  
+    }
+    fwd * depth
+}
+
+fn part2(commands: &Vec<Command>) -> i32 {
+    let mut fwd = 0;
+    let mut depth = 0;
+    let mut aim = 0;
+    for command in commands {
+        match command {
+            Command::Forward(n) => { fwd += n; depth += aim * n; },
+            Command::Up(n) => aim -= n,
+            Command::Down(n) => aim += n
         }  
     }
     fwd * depth
