@@ -17,27 +17,31 @@ fn read_lines() -> Vec<String> {
 fn parse_commands(lines: Vec<String>) -> Vec<Command> {
     lines.iter()
         .map(|line| line.split_whitespace().collect::<Vec<_>>())
-        .map(|pair| Command { 
-            label: pair[0].to_string(),
-            n: pair[1].to_string().parse().unwrap() })
+        .map(|pair| (pair[0], pair[1].parse::<i32>().unwrap()))
+        .map(|(label, n)| match label {
+            "forward" => Command::Forward(n),
+            "up" => Command::Up(n),
+            "down" => Command::Down(n),
+            _ => panic!()
+        })
         .collect::<Vec<_>>()
 }
 
-struct Command {
-    label: String,
-    n: i32
+enum Command {
+    Forward(i32),
+    Up(i32),
+    Down(i32)
 }
 
 fn part1(commands: &Vec<Command>) -> i32 {
-    fn sum_over(commands: &Vec<Command>, label: &str) -> i32 {
-        commands.iter()
-            .filter(|cmd| cmd.label == label)
-            .map(|cmd| cmd.n)
-            .sum()
+    let mut fwd = 0;
+    let mut depth = 0;
+    for command in commands {
+        match command {
+            Command::Forward(n) => fwd += n,
+            Command::Up(n) => depth -= n,
+            Command::Down(n) => depth += n
+        }  
     }
-    let fwd = sum_over(commands, "forward");
-    let up = sum_over(commands, "up");
-    let down = sum_over(commands, "down");
-    println!("{}, {}, {}", fwd, up, down);
-    fwd * (down - up)
+    fwd * depth
 }
