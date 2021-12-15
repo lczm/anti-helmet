@@ -1,5 +1,3 @@
-use std::collections::hash_map::RandomState;
-use std::collections::{HashMap, HashSet};
 ///!
 ///! Anti-Helmet
 ///! Advent of Code
@@ -7,6 +5,8 @@ use std::collections::{HashMap, HashSet};
 ///!
 use std::io::{stdin, Read};
 use std::iter::FromIterator;
+use std::collections::hash_map::RandomState;
+use std::collections::{HashMap, HashSet};
 
 type Pattern = HashSet<char, RandomState>;
 
