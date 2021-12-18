@@ -139,7 +139,7 @@ fn main() {
             if let [src, dest] = line.split("-").collect::<Vec<&str>>().as_slice() {
                 (wrap_cave(src.to_string()), wrap_cave(dest.to_string()))
             } else {
-                panic!("Expected connectionsa to be in the format: SRC-DEST");
+                panic!("Expected connections to be in the format: SRC-DEST");
             }
         })
         .collect();
