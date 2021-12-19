@@ -12,14 +12,19 @@ fn read_file(filename: &str) -> Vec<String> {
 }
 
 fn part1() {
-    let s = read_file("in3");
+    let s = read_file("in1");
     let score = HashMap::from([
-        (')', 3),
-        (']', 57),
-        ('}', 1197),
-        ('>', 25137)
+        ("(", 3),
+        (")", 3),
+        ("[", 57),
+        ("]", 57),
+        ("{", 1197),
+        ("}", 1197),
+        ("<", 25137),
+        (">", 25137)
     ]);
 
+    let mut sum = 0;
     for line in s.iter() {
         let mut semi: i32 = 0;
         let mut square: i32 = 0;
@@ -30,6 +35,12 @@ fn part1() {
         let mut corrupt_square: i32 = 0;
         let mut corrupt_curly: i32 = 0;
         let mut corrupt_arrow: i32 = 0;
+        let mut corrupt = HashMap::from([
+            ('(', 0),
+            ('[', 0),
+            ('{', 0),
+            ('<', 0)
+        ]);
 
         let mut stack: VecDeque<char> = VecDeque::new();
 
@@ -37,49 +48,61 @@ fn part1() {
             match c {
                 '(' => {
                     semi += 1;
-                    stack.push_back('(');
+                    stack.push_front('(');
                 }
                 '[' => {
                     square += 1;
-                    stack.push_back('[');
+                    stack.push_front('[');
                 }
                 '{' => {
                     curly += 1;
-                    stack.push_back('{');
+                    stack.push_front('{');
                 }
                 '<' => {
                     arrow += 1;
-                    stack.push_back('<');
+                    stack.push_front('<');
                 }
                 ')' => {
                     if semi > 0 && *stack.front().unwrap() == '(' {
                         semi -= 1;
+                        stack.pop_front();
                     } else {
-                        corrupt_semi += 1;
+                        *corrupt.get_mut(&'(').unwrap() += 1;
+                        // println!("got : {:?}", &*stack.front().unwrap());
+                        // println!("got : {:?}", &*stack.back().unwrap());
                         break;
                     }
                 }
                 ']' => {
                     if square > 0 && *stack.front().unwrap() == '[' {
                         square -= 1;
+                        stack.pop_front();
                     } else {
-                        corrupt_square += 1;
+                        *corrupt.get_mut(&'[').unwrap() += 1;
+                        // println!("got : {:?}", &*stack.front().unwrap());
+                        // println!("got : {:?}", &*stack.back().unwrap());
                         break;
                     }
                 }
                 '}' => {
                     if curly > 0 && *stack.front().unwrap() == '{' {
                         curly -= 1;
+                        stack.pop_front();
                     } else {
-                        corrupt_curly += 1;
+                        *corrupt.get_mut(&'{').unwrap() += 1;
+                        // println!("got : {:?}", &*stack.front().unwrap());
+                        // println!("got : {:?}", &*stack.back().unwrap());
                         break;
                     }
                 }
                 '>' => {
                     if arrow > 0 && *stack.front().unwrap() == '<' {
                         arrow -= 1;
+                        stack.pop_front();
                     } else {
-                        corrupt_arrow += 1;
+                        *corrupt.get_mut(&'<').unwrap() += 1;
+                        // println!("got : {:?}", &*stack.front().unwrap());
+                        // println!("got : {:?}", &*stack.back().unwrap());
                         break;
                     }
                 }
@@ -89,10 +112,14 @@ fn part1() {
             }
         }
 
-        println!("{} {} {} {}", semi, square, curly, arrow);
-        println!("{} {} {} {}", corrupt_semi, corrupt_square, corrupt_curly, corrupt_arrow);
-        println!("---");
+        for (k, v) in &corrupt {
+            if *v != 0 {
+                // println!("{}", score.get(&k.to_string() as &str).unwrap() * v);
+                sum += score.get(&k.to_string() as &str).unwrap() * v;
+            }
+        }
     }
+    println!("part 1 sum: {}", sum);
 }
 
 fn part2() {
