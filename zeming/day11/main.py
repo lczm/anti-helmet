@@ -49,6 +49,13 @@ def check(grid) -> List[List[int]]:
                 more.append([i,j])
     return more
 
+def check_all(grid) -> bool:
+    for i in range(row):
+        for j in range(col):
+            if grid[i][j] != 0:
+                return False
+    return True
+
 def p1():
     with open("in1", "r") as f:
         l = f.readlines()
@@ -63,4 +70,22 @@ def p1():
         pprint(ll)
         print("total flash: ", total_flashes)
 
+def p2():
+    with open("in1", "r") as f:
+        l = f.readlines()
+        l = [line.rstrip() for line in l]
+        ll = [[0 for i in range(row)] for j in range(col)]
+        lll = [[False for i in range(row)] for j in range(col)]
+        for i in range(row):
+            for j in range(row):
+                ll[i][j] = int(l[i][j])
+        for i in range(1000):
+            inc(ll, lll)
+            if check_all(ll):
+                pprint(ll)
+                print(i + 1)
+                return
+        # print("total flash: ", total_flashes)
+
 p1()
+p2()
