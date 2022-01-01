@@ -38,37 +38,6 @@ func getNeighbour(c, min, max Coordinate) []Coordinate {
 	x, y := c.X, c.Y
 	minX, minY := min.X, min.Y
 	maxX, maxY := max.X, max.Y
-	// this generates diagonals as well, whcih is not the use case for this problem
-	// var sx, sy, ex, ey int
-	// if x-1 < minX {
-	// 	sx = x
-	// } else {
-	// 	sx = x - 1
-	// }
-	// if y-1 < minY {
-	// 	sy = y
-	// } else {
-	// 	sy = y - 1
-	// }
-	// if x+1 > maxX {
-	// 	ex = x
-	// } else {
-	// 	ex = x + 1
-	// }
-	// if y+1 > maxY {
-	// 	ey = y
-	// } else {
-	// 	ey = y + 1
-	// }
-	// for i := sx; i < ex+1; i++ {
-	// 	for j := sy; j < ey+1; j++ {
-	// 		if i == x && j == y {
-	// 			continue
-	// 		}
-	// 		coordinates = append(coordinates, Coordinate{i, j})
-	// 	}
-	// }
-
 	if x != minX {
 		coordinates = append(coordinates, Coordinate{x - 1, y})
 	}
@@ -117,11 +86,6 @@ func dijkstra(grid [][]int,
 					queue = append(queue, neighbour)
 					inqueue[neighbour] = true
 				}
-				// >= will return the "same" type of shortest path...
-				// as if theres multiple shortest path results...
-				// even though it shouldn't matter...
-				// something is fishy
-				// if distance[neighbour] >= distance[e]+grid[neighbour.Y][neighbour.X] {
 				if distance[neighbour] > distance[e]+grid[neighbour.Y][neighbour.X] {
 					path[neighbour] = e
 					distance[neighbour] = distance[e] + grid[neighbour.Y][neighbour.X]
@@ -187,7 +151,9 @@ func main() {
 		risk += grid[c.Y][c.X]
 	}
 	fmt.Println("part1:", risk)
+	// printGrid(path, min, max)
 
+	// part 2
 	grid2 := make([][]int, length*5)
 	for i := range grid2 {
 		grid2[i] = make([]int, height*5)
@@ -220,6 +186,7 @@ func main() {
 			continue
 		}
 		risk2 += grid2[c.Y][c.X]
+		// fmt.Println(risk2)
 	}
 	fmt.Println("part2:", risk2)
 	// printGrid(path2, min, max2)
